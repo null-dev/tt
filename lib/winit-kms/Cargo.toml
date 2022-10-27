@@ -1,0 +1,146 @@
+[package]
+name = "winit"
+version = "0.27.4"
+authors = ["The winit contributors", "Pierre Krieger <pierre.krieger1708@gmail.com>"]
+description = "Cross-platform window creation library."
+edition = "2021"
+keywords = ["windowing"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/rust-windowing/winit"
+documentation = "https://docs.rs/winit"
+categories = ["gui"]
+
+[package.metadata.docs.rs]
+features = ["serde"]
+default-target = "x86_64-unknown-linux-gnu"
+targets = ["i686-pc-windows-msvc", "x86_64-pc-windows-msvc", "i686-unknown-linux-gnu", "x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "wasm32-unknown-unknown"]
+
+[features]
+#default = ["x11", "wayland", "wayland-dlopen", "kms", "fbdev"]
+default = ["fbdev"]
+x11 = ["x11-dl", "mio", "percent-encoding", "parking_lot"]
+wayland = ["wayland-client", "wayland-protocols", "sctk"]
+wayland-dlopen = ["sctk/dlopen", "wayland-client/dlopen"]
+kms = ["drm", "input", "calloop", "xkbcommon", "udev", "parking_lot"]
+kms-ext = ["libseat"]
+fbdev = ["linuxfb", "input", "calloop", "xkbcommon", "udev", "parking_lot"]
+wayland-csd-adwaita = []
+
+[dependencies]
+instant = { version = "0.1.12", features = ["wasm-bindgen"] }
+lazy_static = "1.4.0"
+log = "0.4.17"
+serde = { version = "1.0.137", optional = true, features = ["serde_derive"] }
+raw-window-handle = { git = "https://github.com/rust-windowing/raw-window-handle" }
+bitflags = "1.3.2"
+mint = { version = "0.5.9", optional = true }
+
+[dev-dependencies]
+image = { version = "0.24.2", default-features = false, features = ["png"] }
+simple_logger = "2.1.0"
+
+[target.'cfg(target_os = "android")'.dependencies]
+ndk = "0.6.0"
+ndk-sys = "0.3.0"
+ndk-glue = "0.6.2"
+
+[target.'cfg(any(target_os = "ios", target_os = "macos"))'.dependencies]
+objc = "0.2.7"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+cocoa = "0.24.0"
+core-foundation = "0.9.3"
+core-graphics = "0.22.3"
+dispatch = "0.2.0"
+
+[target.'cfg(target_os = "macos")'.dependencies.core-video-sys]
+version = "0.1.4"
+default_features = false
+features = ["display_link"]
+
+[target.'cfg(target_os = "windows")'.dependencies]
+parking_lot = "0.12.0"
+
+[target.'cfg(target_os = "windows")'.dependencies.windows-sys]
+version = "0.36.1"
+features = [
+    "Win32_Devices_HumanInterfaceDevice",
+    "Win32_Foundation",
+    "Win32_Globalization",
+    "Win32_Graphics_Dwm",
+    "Win32_Graphics_Gdi",
+    "Win32_Media",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Com",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Ole",
+    "Win32_System_SystemInformation",
+    "Win32_System_SystemServices",
+    "Win32_System_Threading",
+    "Win32_System_WindowsProgramming",
+    "Win32_UI_Accessibility",
+    "Win32_UI_Controls",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Input_Ime",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_Input_Pointer",
+    "Win32_UI_Input_Touch",
+    "Win32_UI_Shell",
+    "Win32_UI_TextServices",
+    "Win32_UI_WindowsAndMessaging",
+]
+
+[target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd", target_os = "netbsd"))'.dependencies]
+wayland-client = { version = "0.29.4", default_features = false, features = ["use_system_lib"], optional = true }
+wayland-protocols = { version = "0.29.4", features = [ "staging_protocols"], optional = true }
+sctk = { package = "smithay-client-toolkit", version = "0.15.4", default_features = false, features = ["calloop"], optional = true }
+mio = { version = "0.8.3", features = ["os-ext"], optional = true }
+x11-dl = { version = "2.19.1", optional = true }
+percent-encoding = { version = "2.1.0", optional = true }
+parking_lot = { version = "0.12.0", optional = true }
+libc = "0.2.125"
+drm = { version = "0.6.2", optional = true }
+input = { version = "0.7.1", optional = true }
+libseat = { version = "0.1.4", optional = true }
+udev = { version = "0.6.3", optional = true }
+calloop = { version = "0.9.3", optional = true }
+linuxfb = { version = "0.2.0", optional = true }
+xkbcommon = { git = "https://github.com/StratusFearMe21/xkbcommon-rs", optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen= "0.2.80"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies.web_sys]
+package = "web-sys"
+version = "0.3.57"
+features = [
+    'console',
+    "AddEventListenerOptions",
+    'CssStyleDeclaration',
+    'BeforeUnloadEvent',
+    'Document',
+    'DomRect',
+    'Element',
+    'Event',
+    'EventTarget',
+    'FocusEvent',
+    'HtmlCanvasElement',
+    'HtmlElement',
+    'KeyboardEvent',
+    'MediaQueryList',
+    'MediaQueryListEvent',
+    'MouseEvent',
+    'Node',
+    'PointerEvent',
+    'Window',
+    'WheelEvent'
+]
+
+[target.'cfg(target_arch = "wasm32")'.dev-dependencies]
+console_log = "0.2.0"
+
+[workspace]
+members = [
+    "run-wasm",
+]

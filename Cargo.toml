@@ -1,0 +1,29 @@
+[package]
+name = "tt"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+#egui = "0.19.0"
+#eframe = "0.19.0"
+egui = { path = 'lib/egui/crates/egui' }
+eframe = { path = 'lib/egui/crates/eframe' }
+
+# Lock winit, glutin and raw-window-handle to patch versions
+raw-window-handle = "0.4.3"
+#raw-window-handle = { version = "0.4.3", git = "https://github.com/rust-windowing/raw-window-handle", rev = "3290a311a6f80b3629bd42cf077b470744596e3a" }
+#raw-window-handle = { git = "https://github.com/rust-windowing/raw-window-handle", rev = "3290a311a6f80b3629bd42cf077b470744596e3a" }
+
+[patch.crates-io]
+winit = { path = 'lib/winit-kms' }
+glutin = { path = 'lib/glutin-kms/glutin' }
+raw-window-handle = { git = 'https://github.com/rust-windowing/raw-window-handle.git', rev = '3290a311a6f80b3629bd42cf077b470744596e3a' }
+
+[patch.'https://github.com/rust-windowing/raw-window-handle']
+# https://github.com/rust-lang/cargo/issues/5478
+raw-window-handle = { git = 'https://github.com/rust-windowing//raw-window-handle.git', rev = '3290a311a6f80b3629bd42cf077b470744596e3a' }
+
+[patch.'https://github.com/StratusFearMe21/winit']
+winit = { path = 'lib/winit-kms' }
