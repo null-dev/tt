@@ -11,7 +11,7 @@ This project contains a port of [egui](https://github.com/emilk/egui) to the Spo
     - Seems like no way to rotate in hardware:
       - `/sys/class/graphics/fb0/rotate` doesn't seem to work
       - `/sys/class/graphics/fb0/osd_reverse` only flips/mirrors it (so it doesn't help either)
-      - `echo 1 > /sys/class/graphics/fb0/osd_clear` can be used to clear the display
+  - `echo 1 > /sys/class/graphics/fb0/osd_clear` can be used to clear the display
 - A [branch of winit with KMS/DRM](https://github.com/rust-windowing/winit/pull/2272) is used:
   - The KMS/DRM portion of the branch is not actually being used because the Car Thing doesn't support KMS/DRM.
     - The Car Thing supports FBDev instead (but I don't actually use that either, I use EGL directly)
